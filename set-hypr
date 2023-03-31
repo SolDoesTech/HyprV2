@@ -102,7 +102,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     echo -e "$CNT - Stage 1 - Installing main components, this may take a while..."
     for SOFTWR in hyprland-bin kitty waybar-hyprland swww swaylock-effects wofi wlogout mako xdg-desktop-portal-hyprland-git swappy grim slurp thunar
     do
-        echo "$CNT - Now installing $SOFTWR ..."
+        echo -e "$CNT - Now installing $SOFTWR ..."
         yay -S --noconfirm $SOFTWR &>> $INSTLOG
         if yay -Qs $SOFTWR > /dev/null ; then
             echo -e "$COK - $SOFTWR was installed."
@@ -116,7 +116,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     echo -e "$CNT - Stage 2 - Installing additional tools and utilities, this may take a while..."
     for SOFTWR in polkit-gnome python-requests pamixer pavucontrol brightnessctl bluez bluez-utils blueman network-manager-applet gvfs thunar-archive-plugin file-roller
     do
-        echo "$CNT - Now installing $SOFTWR ..."
+        echo -e "$CNT - Now installing $SOFTWR ..."
         yay -S --noconfirm $SOFTWR &>> $INSTLOG
         if yay -Qs $SOFTWR > /dev/null ; then
             echo -e "$COK - $SOFTWR was installed."
@@ -130,7 +130,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     echo -e "$CNT - Stage 3 - Installing theme and visual related tools and utilities, this may take a while..."
     for SOFTWR in starship ttf-jetbrains-mono-nerd noto-fonts-emoji lxappearance xfce4-settings sddm-git sddm-sugar-candy-git
     do
-        echo "$CNT - Now installing $SOFTWR ..."
+        echo -e "$CNT - Now installing $SOFTWR ..."
         yay -S --noconfirm $SOFTWR &>> $INSTLOG
         if yay -Qs $SOFTWR > /dev/null ; then
             echo -e "$COK - $SOFTWR was installed."
