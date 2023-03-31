@@ -60,14 +60,14 @@ else
     if [[ $INSTYAY == "Y" || $INSTYAY == "y" ]]; then
         git clone https://aur.archlinux.org/yay-git.git
         cd yay-git
-        makepkg -si --noconfirm > /dev/null
+        makepkg -si --noconfirm
         cd ..
         
     else
         echo -e "Yay is required for this script, now exiting"
         exit
     fi
-    yay -Suy > /dev/null
+    yay -Suy 
 fi
 
 ### Disable wifi powersave mode ###
@@ -93,7 +93,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     bluez bluez-utils blueman network-manager-applet \
     lxappearance xfce4-settings xdg-desktop-portal-hyprland-git \
     thunar gvfs thunar-archive-plugin file-roller \
-    sddm-git sddm-sugar-candy-git > /dev/null
+    sddm-git sddm-sugar-candy-git
 
     # Start the bluetooth service
     echo -e "Starting the Bluetooth Service...\n"
@@ -179,7 +179,7 @@ if [[ $ROG == "Y" || $ROG == "y" ]]; then
     echo -e "\n[g14]\nServer = https://arch.asus-linux.org" | sudo tee -a $LOC
     echo -e "\n"
     echo -e "Update the system...\n"
-    sudo pacman -Suy > /dev/null
+    sudo pacman -Suy
 
     echo -e "Installing ROG pacakges...\n"
     sudo pacman -S --noconfirm asusctl supergfxctl rog-control-center > /dev/null
