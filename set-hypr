@@ -137,9 +137,10 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     echo -e "Setting up the login screen. \n"
     sudo cp -R sdt /usr/share/sddm/themes/
     sudo chown -R $USER:$USER /usr/share/sddm/themes/sdt
-    sudo mkdir -p /etc/sddm.conf.d
-    sudo echo -e "[Theme]\nCurrent=sdt" > /etc/sddm.conf.d/10-theme.conf
-    sudo cp extra/hyprland.desktop /usr/share/wayland-sessions/
+    sudo mkdir /etc/sddm.conf.d
+    echo -e "[Theme]\nCurrent=sdt" | sudo tee -a /etc/sddm.conf.d/10-theme.conf
+    sudo mkdir /usr/share/wayland-sessions
+    sudo cp extras/hyprland.desktop /usr/share/wayland-sessions/
     sudo sudo sed -i 's/Exec=Hyprland/Exec=\/home\/'$USER'\/start-hypr/' /usr/share/wayland-sessions/hyprland.desktop
     cp extras/start-hypr ~/
 
