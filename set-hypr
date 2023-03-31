@@ -68,7 +68,7 @@ if [ -f "$ISYAY" ]; then
     echo -e "$COK - yay was located, moving on.\n"
 else 
     echo -e "$CWR - Yay was NOT located"
-    read -n1 -rep '[\e[1;33mACTION\e[0m] - would you like to install yay (y,n) ' INSTYAY
+    read -n1 -rep $'[\e[1;33mACTION\e[0m] - would you like to install yay (y,n) ' INSTYAY
     if [[ $INSTYAY == "Y" || $INSTYAY == "y" ]]; then
         git clone https://aur.archlinux.org/yay-git.git &>> $INSTLOG
         cd yay-git
@@ -83,7 +83,7 @@ else
 fi
 
 ### Disable wifi powersave mode ###
-read -n1 -rep '[\e[1;33mACTION\e[0m] - Would you like to disable WiFi powersave? (y,n) ' WIFI
+read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to disable WiFi powersave? (y,n) ' WIFI
 if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
     LOC="/etc/NetworkManager/conf.d/wifi-powersave.conf"
     echo -e "$CNT - The following has been added to $LOC.\n"
@@ -95,7 +95,7 @@ if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
 fi
 
 ### Install all of the above pacakges ####
-read -n1 -rep '[\e[1;33mACTION\e[0m] - Would you like to install the packages? (y,n) ' INST
+read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to install the packages? (y,n) ' INST
 if [[ $INST == "Y" || $INST == "y" ]]; then
 
     #Stage 1
@@ -156,7 +156,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 fi
 
 ### Copy Config Files ###
-read -n1 -rep '[\e[1;33mACTION\e[0m] - Would you like to copy config files? (y,n) ' CFG
+read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to copy config files? (y,n) ' CFG
 if [[ $CFG == "Y" || $CFG == "y" ]]; then
     echo -e "$CNT - Copying config files..."
     for DIR in hypr kitty mako swaylock waybar wlogout wofi 
@@ -200,7 +200,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 fi
 
 ### Install the starship shell ###
-read -n1 -rep '[\e[1;33mACTION\e[0m] - Would you like to activate the starship shell? (y,n) ' STAR
+read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to activate the starship shell? (y,n) ' STAR
 if [[ $STAR == "Y" || $STAR == "y" ]]; then
     # install the starship shell
     echo -e "$CNT - Engage..."
@@ -211,7 +211,7 @@ if [[ $STAR == "Y" || $STAR == "y" ]]; then
 fi
 
 ### Install software for Asus ROG laptops ###
-read -n1 -rep '[\e[1;33mACTION\e[0m] Would you like to install Asus ROG software support? (y,n) ' ROG
+read -n1 -rep $'[\e[1;33mACTION\e[0m] Would you like to install Asus ROG software support? (y,n) ' ROG
 if [[ $ROG == "Y" || $ROG == "y" ]]; then
     echo -e "$CNT - Adding Keys..."
     sudo pacman-key --recv-keys 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35 &>> $INSTLOG
@@ -240,7 +240,7 @@ fi
 
 ### Script is done ###
 echo -e "$CNT Script had completed!"
-read -n1 -rep '[\e[1;33mACTION\e[0m] - Would you like to start Hyprland now? (y,n) ' HYP
+read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to start Hyprland now? (y,n) ' HYP
 if [[ $HYP == "Y" || $HYP == "y" ]]; then
     exec sudo systemctl start sddm &>> $INSTLOG
 else
