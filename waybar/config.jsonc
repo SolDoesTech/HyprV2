@@ -8,7 +8,7 @@
     "height": 50,
     "modules-left": ["custom/launch_wofi","wlr/workspaces","hyprland/window"],
     "modules-center": ["custom/lock_screen","clock","custom/power_btn"],
-    "modules-right": ["temperature","custom/power_profile","battery","backlight","pulseaudio","pulseaudio#microphone","tray","custom/weather","custom/light_dark"],
+    "modules-right": ["cpu","memory","disk","temperature","custom/power_profile","battery","backlight","pulseaudio","pulseaudio#microphone","tray","custom/weather","custom/light_dark"],
     
     "hyprland/window": {
         "format": "{}"
@@ -36,6 +36,31 @@
         "format": "",
         "on-click": "wlogout --protocol layer-shell",
         "tooltip": false
+    },
+
+    "cpu": {
+        "interval": 10,
+        "format": " {usage}%",
+        "max-length": 10,
+        "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
+    },
+
+    "disk": {
+        "interval": 30,
+        "format": "󰋊 {percentage_used}%",
+        "path": "/",
+        "tooltip": true,
+        "tooltip-format": "HDD - {used} used out of {total} on {path} ({percentage_used}%)",
+        "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
+    },
+
+    "memory": {
+        "interval": 30,
+        "format": " {}%",
+        "max-length": 10,
+        "tooltip": true,
+        "tooltip-format": "Memory - {used:0.1f}GB used",
+        "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
     },
 
     "wlr/workspaces": {
@@ -140,7 +165,8 @@
     "temperature": {
         "thermal-zone": 1,
         "format": "{temperatureF}°F ",
-        "critical-threshold": 80,
-        "format-critical": "{temperatureC}°C "
+        "critical-threshold": 40,
+        "format-critical": "{temperatureC}°C ",
+        "on-click": "kitty --start-as=fullscreen --title btop sh -c 'btop'"
     }
 }

@@ -38,6 +38,8 @@
 # file-roller: Backend set of tools for working with compressed files
 # sddm-git: developement version of SDDM which is a display manager for graphical login
 # sddm-sugar-candy-git: an sddm theme my theme is based on (copy of)
+# btop: Resource monitor that shows usage and stats for processor, memory, disks, network and processes.
+
 CNT="[\e[1;36mNOTE\e[0m]"
 COK="[\e[1;32mOK\e[0m]"
 CER="[\e[1;31mERROR\e[0m]"
@@ -45,6 +47,8 @@ CAT="[\e[1;37mATTENTION\e[0m]"
 CWR="[\e[1;35mWARNING\e[0m]"
 CAC="[\e[1;33mACTION\e[0m]"
 INSTLOG="install.log"
+
+clear
 
 #set some expectations
 echo -e "\n
@@ -86,10 +90,10 @@ fi
 read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to disable WiFi powersave? (y,n) ' WIFI
 if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
     LOC="/etc/NetworkManager/conf.d/wifi-powersave.conf"
-    echo -e "$CNT - The following has been added to $LOC.\n"
+    echo -e "$CNT - The following file has been created $LOC."
     echo -e "[connection]\nwifi.powersave = 2" | sudo tee -a $LOC &>> $INSTLOG
     echo -e "\n"
-    echo -e "$CNT - Restarting NetworkManager service...\n"
+    echo -e "$CNT - Restarting NetworkManager service..."
     sudo systemctl restart NetworkManager &>> $INSTLOG
     sleep 3
 fi
@@ -99,7 +103,7 @@ read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to install the packages? 
 if [[ $INST == "Y" || $INST == "y" ]]; then
 
     #Stage 1
-    echo -e "$CNT - Stage 1 - Installing main components, this may take a while..."
+    echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
     for SOFTWR in hyprland-bin kitty waybar-hyprland swww swaylock-effects wofi wlogout mako xdg-desktop-portal-hyprland-git swappy grim slurp thunar
     do
         echo -e "$CNT - Now installing $SOFTWR ..."
@@ -113,8 +117,8 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     done
 
     #Stage 2
-    echo -e "$CNT - Stage 2 - Installing additional tools and utilities, this may take a while..."
-    for SOFTWR in polkit-gnome python-requests pamixer pavucontrol brightnessctl bluez bluez-utils blueman network-manager-applet gvfs thunar-archive-plugin file-roller
+    echo -e "\n$CNT - Stage 2 - Installing additional tools and utilities, this may take a while..."
+    for SOFTWR in polkit-gnome python-requests pamixer pavucontrol brightnessctl bluez bluez-utils blueman network-manager-applet gvfs thunar-archive-plugin file-roller btop
     do
         echo -e "$CNT - Now installing $SOFTWR ..."
         yay -S --noconfirm $SOFTWR &>> $INSTLOG
@@ -127,7 +131,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     done
 
     #Stage 3
-    echo -e "$CNT - Stage 3 - Installing theme and visual related tools and utilities, this may take a while..."
+    echo -e "\n$CNT - Stage 3 - Installing theme and visual related tools and utilities, this may take a while..."
     for SOFTWR in starship ttf-jetbrains-mono-nerd noto-fonts-emoji lxappearance xfce4-settings sddm-git sddm-sugar-candy-git
     do
         echo -e "$CNT - Now installing $SOFTWR ..."
@@ -184,7 +188,13 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     sudo chown -R $USER:$USER /usr/share/sddm/themes/sdt
     sudo mkdir /etc/sddm.conf.d
     echo -e "[Theme]\nCurrent=sdt" | sudo tee -a /etc/sddm.conf.d/10-theme.conf &>> $INSTLOG
-    sudo mkdir /usr/share/wayland-sessions
+    WLDIR=/usr/share/wayland-sessions
+    if [ -d "$WLDIR" ]; then
+        echo -e "$COK - $WLDIR found"
+    else
+        echo -e "$CWR - $WLDIR NOT found, creating..."
+        sudo mkdir $WLDIR
+    fi 
     sudo cp extras/hyprland.desktop /usr/share/wayland-sessions/
     sudo sudo sed -i 's/Exec=Hyprland/Exec=\/home\/'$USER'\/start-hypr/' /usr/share/wayland-sessions/hyprland.desktop
     cp extras/start-hypr ~/

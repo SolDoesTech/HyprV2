@@ -60,6 +60,9 @@ tooltip label{
 #custom-power_profile,
 #custom-weather,
 #window,
+#cpu,
+#disk,
+#memory,
 #clock,
 #battery,
 #pulseaudio,
@@ -76,11 +79,11 @@ tooltip label{
     border: 0px;
 }
 
-#tray, #custom-lock_screen, #temperature, #backlight, #custom-launch_wofi {
+#tray, #custom-lock_screen, #temperature, #backlight, #custom-launch_wofi, #cpu {
     border-radius: 10px 0px 0px 10px;
 }
 
-#custom-light_dark, #custom-power_btn, #workspaces, #pulseaudio.microphone, #battery {
+#custom-light_dark, #custom-power_btn, #workspaces, #pulseaudio.microphone, #battery, #disk {
     border-radius: 0px 10px 10px 0px;
     margin-right: 10px;
 }
