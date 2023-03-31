@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# DO NOT DELETE this file or move it!!
+# Startup file for Hyprland used by sddm
+
+# Changing the exports below is not recommended
+export WLR_EGL_NO_MODIFIERS=1
+export XDG_CURRENT_DESKTOP=Hyprland
+export XDG_SESSION_TYPE=wayland
+export XDG_SESSION_DESKTOP=Hyprland
+
+#Add your own exports below this line
+
+# Uncomment for POSSIBLE nvidia support
+# See the wiki for more info as some work is required
+# https://wiki.hyprland.org/hyprland-wiki/pages/Nvidia/
+#env = LIBVA_DRIVER_NAME,nvidia
+#env = XDG_SESSION_TYPE,wayland
+#env = GBM_BACKEND,nvidia-drm
+#env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+#env = WLR_NO_HARDWARE_CURSORS,1
+
+exec Hyprland

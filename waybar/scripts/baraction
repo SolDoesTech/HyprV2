@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# Check which waybar theme is set
+THEMEIS=$(readlink -f ~/.config/waybar/style.css | cut -d '-' -f2)
+
+#if the theme is not dark then we need to switch to it
+if [ $THEMEIS != "dark.css" ]; then
+    SWITCHTO="-dark"
+fi
+
+#set the waybar theme
+ln -sf ~/.config/waybar/style/style$SWITCHTO.css ~/.config/waybar/style.css
+
+#set the wofi theme
+ln -sf ~/.config/wofi/style/style$SWITCHTO.css ~/.config/wofi/style.css
+
+#set the xfce theme
+xfconf-query -c xsettings -p /Net/ThemeName -s "Adwaita$SWITCHTO"
+xfconf-query -c xsettings -p /Net/IconThemeName -s "Adwaita$SWITCHTO"
+
+#set the GTK theme
+gsettings set org.gnome.desktop.interface gtk-theme "Adwaita$SWITCHTO"
+gsettings set org.gnome.desktop.interface icon-theme "Adwaita$SWITCHTO"
+
+#change the background image and be cool about it ;)
+swww img ~/.config/hypr/wallpaper$SWITCHTO.jpg --transition-fps 60 --transition-type wipe --transition-duration 2
+
+#update the sddm image
+ln -sf /usr/share/sddm/themes/sdt/Backgrounds/wallpaper$SWITCHTO.jpg /usr/share/sddm/themes/sdt/wallpaper.jpg
+
+#restart the waybar
+killall -SIGUSR2 waybar
