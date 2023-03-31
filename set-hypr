@@ -38,10 +38,17 @@
 # file-roller: Backend set of tools for working with compressed files
 # sddm-git: developement version of SDDM which is a display manager for graphical login
 # sddm-sugar-candy-git: an sddm theme my theme is based on (copy of)
+CNT="[\e[1;36mNOTE\e[0m]"
+COK="[\e[1;32mOK\e[0m]"
+CER="[\e[1;31mERROR\e[0m]"
+CAT="[\e[1;37mATTENTION\e[0m]"
+CWR="[\e[1;35mWARNING\e[0m]"
+CAC="[\e[1;33mACTION\e[0m]"
+INSTLOG="install.log"
 
 #set some expectations
 echo -e "\n
-[NOTE] - You are about to execute a script that would attempt to setup Hyprland.
+$CNT - You are about to execute a script that would attempt to setup Hyprland.
 Please note that Hyprland is still in Beta.
 Please note that VMs are not fully supported and if you try to run this on
 a Virtual Machine there is a high chance this will fail.
@@ -52,131 +59,131 @@ more work which is beyond the scope of this script.\n
 sleep 3
 
 echo -e "\n
-[NOTE] - This script will run some commands that require sudo. You will be prompted to enter your password.
+$CNT - This script will run some commands that require sudo. You will be prompted to enter your password.
 If you are worried about entering your password then you may want to review the content of the script.\n"
 
 #### Check for yay ####
 ISYAY=/sbin/yay
 if [ -f "$ISYAY" ]; then 
-    echo -e "[OK] - yay was located, moving on.\n"
+    echo -e "$COK - yay was located, moving on.\n"
 else 
-    echo -e "[WARNING] - Yay was NOT located"
-    read -n1 -rep '[ACTION] - would you like to install yay (y,n) ' INSTYAY
+    echo -e "$CWR - Yay was NOT located"
+    read -n1 -rep '[\e[1;33mACTION\e[0m] - would you like to install yay (y,n) ' INSTYAY
     if [[ $INSTYAY == "Y" || $INSTYAY == "y" ]]; then
-        git clone https://aur.archlinux.org/yay-git.git &>> install.log
+        git clone https://aur.archlinux.org/yay-git.git &>> $INSTLOG
         cd yay-git
-        makepkg -si --noconfirm &>> ../install.log
+        makepkg -si --noconfirm &>> ../$INSTLOG
         cd ..
         
     else
-        echo -e "[ERROR] - Yay is required for this script, now exiting"
+        echo -e "$CER - Yay is required for this script, now exiting"
         exit
     fi
-    yay -Suy --noconfirm &>> install.log
+    yay -Suy --noconfirm &>> $INSTLOG
 fi
 
 ### Disable wifi powersave mode ###
-read -n1 -rep '[ACTION] - Would you like to disable WiFi powersave? (y,n) ' WIFI
+read -n1 -rep '[\e[1;33mACTION\e[0m] - Would you like to disable WiFi powersave? (y,n) ' WIFI
 if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
     LOC="/etc/NetworkManager/conf.d/wifi-powersave.conf"
-    echo -e "[NOTE] - The following has been added to $LOC.\n"
-    echo -e "[connection]\nwifi.powersave = 2" | sudo tee -a $LOC &>> install.log
+    echo -e "$CNT - The following has been added to $LOC.\n"
+    echo -e "[connection]\nwifi.powersave = 2" | sudo tee -a $LOC &>> $INSTLOG
     echo -e "\n"
-    echo -e "[NOTE] - Restarting NetworkManager service...\n"
-    sudo systemctl restart NetworkManager &>> install.log
+    echo -e "$CNT - Restarting NetworkManager service...\n"
+    sudo systemctl restart NetworkManager &>> $INSTLOG
     sleep 3
 fi
 
 ### Install all of the above pacakges ####
-read -n1 -rep '[ACTION] - Would you like to install the packages? (y,n) ' INST
+read -n1 -rep '[\e[1;33mACTION\e[0m] - Would you like to install the packages? (y,n) ' INST
 if [[ $INST == "Y" || $INST == "y" ]]; then
 
     #Stage 1
-    echo -e "[NOTE Stage 1] - Installing main components, this may take a while..."
+    echo -e "$CNT - Stage 1 - Installing main components, this may take a while..."
     for SOFTWR in hyprland-bin kitty waybar-hyprland swww swaylock-effects wofi wlogout mako xdg-desktop-portal-hyprland-git swappy grim slurp thunar
     do
-        echo "[NOTE] - Now installing $SOFTWR ..."
-        yay -S --noconfirm $SOFTWR &>> install.log
+        echo "$CNT - Now installing $SOFTWR ..."
+        yay -S --noconfirm $SOFTWR &>> $INSTLOG
         if yay -Qs $SOFTWR > /dev/null ; then
-            echo -e "[OK] - $SOFTWR was installed."
+            echo -e "$COK - $SOFTWR was installed."
         else
-            echo -e "[ERROR] - $SOFTWR install had failed, please check the install.log"
+            echo -e "$CER - $SOFTWR install had failed, please check the install.log"
             exit
         fi
     done
 
     #Stage 2
-    echo -e "[NOTE Stage 2] - Installing additional tools and utilities, this may take a while..."
+    echo -e "$CNT - Stage 2 - Installing additional tools and utilities, this may take a while..."
     for SOFTWR in polkit-gnome python-requests pamixer pavucontrol brightnessctl bluez bluez-utils blueman network-manager-applet gvfs thunar-archive-plugin file-roller
     do
-        echo "[NOTE] - Now installing $SOFTWR ..."
-        yay -S --noconfirm $SOFTWR &>> install.log
+        echo "$CNT - Now installing $SOFTWR ..."
+        yay -S --noconfirm $SOFTWR &>> $INSTLOG
         if yay -Qs $SOFTWR > /dev/null ; then
-            echo -e "[OK] - $SOFTWR was installed."
+            echo -e "$COK - $SOFTWR was installed."
         else
-            echo -e "[ERROR] - $SOFTWR install had failed, please check the install.log"
+            echo -e "$CER - $SOFTWR install had failed, please check the install.log"
             exit
         fi
     done
 
     #Stage 3
-    echo -e "[NOTE Stage 3] - Installing theme and visual related tools and utilities, this may take a while..."
+    echo -e "$CNT - Stage 3 - Installing theme and visual related tools and utilities, this may take a while..."
     for SOFTWR in starship ttf-jetbrains-mono-nerd noto-fonts-emoji lxappearance xfce4-settings sddm-git sddm-sugar-candy-git
     do
-        echo "[NOTE] - Now installing $SOFTWR ..."
-        yay -S --noconfirm $SOFTWR &>> install.log
+        echo "$CNT - Now installing $SOFTWR ..."
+        yay -S --noconfirm $SOFTWR &>> $INSTLOG
         if yay -Qs $SOFTWR > /dev/null ; then
-            echo -e "[OK] - $SOFTWR was installed."
+            echo -e "$COK - $SOFTWR was installed."
         else
-            echo -e "[ERROR] - $SOFTWR install had failed, please check the install.log"
+            echo -e "$CER - $SOFTWR install had failed, please check the install.log"
             exit
         fi
     done
 
     # Start the bluetooth service
-    echo -e "[NOTE] - Starting the Bluetooth Service..."
-    sudo systemctl enable --now bluetooth.service &>> install.log
+    echo -e "$CNT - Starting the Bluetooth Service..."
+    sudo systemctl enable --now bluetooth.service &>> $INSTLOG
     sleep 2
 
     # Enable the sddm login manager service
-    echo -e "[NOTE] - Enabling the SDDM Service..."
-    sudo systemctl enable sddm &>> install.log
+    echo -e "$CNT - Enabling the SDDM Service..."
+    sudo systemctl enable sddm &>> $INSTLOG
     sleep 2
     
     # Clean out other portals
-    echo -e "[NOTE] - Cleaning out conflicting xdg portals..."
-    yay -R --noconfirm xdg-desktop-portal-gnome xdg-desktop-portal-gtk &>> install.log
+    echo -e "$CNT - Cleaning out conflicting xdg portals..."
+    yay -R --noconfirm xdg-desktop-portal-gnome xdg-desktop-portal-gtk &>> $INSTLOG
 fi
 
 ### Copy Config Files ###
-read -n1 -rep '[ACTION] - Would you like to copy config files? (y,n) ' CFG
+read -n1 -rep '[\e[1;33mACTION\e[0m] - Would you like to copy config files? (y,n) ' CFG
 if [[ $CFG == "Y" || $CFG == "y" ]]; then
-    echo -e "[NOTE] - Copying config files..."
+    echo -e "$CNT - Copying config files..."
     for DIR in hypr kitty mako swaylock waybar wlogout wofi 
     do 
         DIRPATH=~/.config/$DIR
         if [ -d "$DIRPATH" ]; then 
-            echo -e "[ATTENTION] - Config for $DIR located, backing up."
-            mv $DIRPATH $DIRPATH-back &>> install.log
-            echo -e "[OK] - Backed up $DIR to $DIRPATH-back."
+            echo -e "$CAT - Config for $DIR located, backing up."
+            mv $DIRPATH $DIRPATH-back &>> $INSTLOG
+            echo -e "$COK - Backed up $DIR to $DIRPATH-back."
         fi
-        echo -e "[NOTE] - Copying $DIR config to $DIRPATH."  
-        cp -R $DIR ~/.config/ &>> install.log
+        echo -e "$CNT - Copying $DIR config to $DIRPATH."  
+        cp -R $DIR ~/.config/ &>> $INSTLOG
     done
 
     # Set some files as exacutable
-    echo -e "[NOTE] - Setting some file as +x." 
+    echo -e "$CNT - Setting some file as +x." 
     chmod +x ~/.config/hypr/scripts/bgaction
     chmod +x ~/.config/hypr/scripts/xdg-portal-hyprland
     chmod +x ~/.config/waybar/scripts/waybar-wttr.py
     chmod +x ~/.config/waybar/scripts/baraction
 
     # Copy the SDDM theme
-    echo -e "[NOTE] - Setting up the login screen."
+    echo -e "$CNT - Setting up the login screen."
     sudo cp -R sdt /usr/share/sddm/themes/
     sudo chown -R $USER:$USER /usr/share/sddm/themes/sdt
     sudo mkdir /etc/sddm.conf.d
-    echo -e "[Theme]\nCurrent=sdt" | sudo tee -a /etc/sddm.conf.d/10-theme.conf
+    echo -e "[Theme]\nCurrent=sdt" | sudo tee -a /etc/sddm.conf.d/10-theme.conf &>> $INSTLOG
     sudo mkdir /usr/share/wayland-sessions
     sudo cp extras/hyprland.desktop /usr/share/wayland-sessions/
     sudo sudo sed -i 's/Exec=Hyprland/Exec=\/home\/'$USER'\/start-hypr/' /usr/share/wayland-sessions/hyprland.desktop
@@ -193,38 +200,38 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
 fi
 
 ### Install the starship shell ###
-read -n1 -rep '[ACTION] - Would you like to activate the starship shell? (y,n) ' STAR
+read -n1 -rep '[\e[1;33mACTION\e[0m] - Would you like to activate the starship shell? (y,n) ' STAR
 if [[ $STAR == "Y" || $STAR == "y" ]]; then
     # install the starship shell
-    echo -e "[NOTE] - Engage..."
-    echo -e "[NOTE] - Updating .bashrc..."
+    echo -e "$CNT - Engage..."
+    echo -e "$CNT - Updating .bashrc..."
     echo -e '\neval "$(starship init bash)"' >> ~/.bashrc
-    echo -e "[NOTE] - copying starship config file to ~/.confg ..."
+    echo -e "$CNT - copying starship config file to ~/.confg ..."
     cp extras/starship.toml ~/.config/
 fi
 
 ### Install software for Asus ROG laptops ###
-read -n1 -rep '[ACTION] Would you like to install Asus ROG software support? (y,n) ' ROG
+read -n1 -rep '[\e[1;33mACTION\e[0m] Would you like to install Asus ROG software support? (y,n) ' ROG
 if [[ $ROG == "Y" || $ROG == "y" ]]; then
-    echo -e "[NOTE] - Adding Keys... \n"
-    sudo pacman-key --recv-keys 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35 &>> install.log
-    sudo pacman-key --finger 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35 &>> install.log
-    sudo pacman-key --lsign-key 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35 &>> install.log
-    sudo pacman-key --finger 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35 &>> install.log
+    echo -e "$CNT - Adding Keys..."
+    sudo pacman-key --recv-keys 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35 &>> $INSTLOG
+    sudo pacman-key --finger 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35 &>> $INSTLOG
+    sudo pacman-key --lsign-key 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35 &>> $INSTLOG
+    sudo pacman-key --finger 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35 &>> $INSTLOG
 
     LOC="/etc/pacman.conf"
-    echo -e "[NOTE] - Updating $LOC with g14 repo."
-    echo -e "\n[g14]\nServer = https://arch.asus-linux.org" | sudo tee -a $LOC &>> install.log
+    echo -e "$CNT - Updating $LOC with g14 repo."
+    echo -e "\n[g14]\nServer = https://arch.asus-linux.org" | sudo tee -a $LOC &>> $INSTLOG
     echo -e "\n"
-    echo -e "[NOTE] - Update the system..."
-    sudo pacman -Suy --noconfirm &>> install.log
+    echo -e "$CNT - Update the system..."
+    sudo pacman -Suy --noconfirm &>> $INSTLOG
 
-    echo -e "[NOTE] - Installing ROG pacakges..."
-    sudo pacman -S --noconfirm asusctl supergfxctl rog-control-center &>> install.log
-    echo -e "[NOTE] - Activating ROG services..."
-    sudo systemctl enable --now power-profiles-daemon.service &>> install.log
+    echo -e "$CNT - Installing ROG pacakges..."
+    sudo pacman -S --noconfirm asusctl supergfxctl rog-control-center &>> $INSTLOG
+    echo -e "$CNT - Activating ROG services..."
+    sudo systemctl enable --now power-profiles-daemon.service &>> $INSTLOG
     sleep 2
-    sudo systemctl enable --now supergfxd &>> install.log
+    sudo systemctl enable --now supergfxd &>> $INSTLOG
     sleep 2
 
     #add the keybinding file to the config
@@ -232,10 +239,10 @@ if [[ $ROG == "Y" || $ROG == "y" ]]; then
 fi
 
 ### Script is done ###
-echo -e "[NOTE] Script had completed!"
-read -n1 -rep '[ACTION] - Would you like to start Hyprland now? (y,n) ' HYP
+echo -e "$CNT Script had completed!"
+read -n1 -rep '[\e[1;33mACTION\e[0m] - Would you like to start Hyprland now? (y,n) ' HYP
 if [[ $HYP == "Y" || $HYP == "y" ]]; then
-    exec sudo systemctl start sddm &>> install.log
+    exec sudo systemctl start sddm &>> $INSTLOG
 else
     exit
 fi
