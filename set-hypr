@@ -55,7 +55,6 @@ more work which is beyond the scope of this script.\n
 ISYAY=/sbin/yay
 if [ -f "$ISYAY" ]; then 
     echo -e "yay was located, moving on.\n"
-    yay -Suy > /dev/null
 else 
     read -n1 -rep 'Yay was NOT located, would you like to install yay (y,n) ' INSTYAY
     if [[ $INSTYAY == "Y" || $INSTYAY == "y" ]]; then
@@ -63,10 +62,12 @@ else
         cd yay-git
         makepkg -si --noconfirm > /dev/null
         cd ..
+        
     else
         echo -e "Yay is required for this script, now exiting"
         exit
     fi
+    yay -Suy > /dev/null
 fi
 
 ### Disable wifi powersave mode ###
@@ -136,8 +137,9 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     echo -e "Setting up the login screen. \n"
     sudo cp -R sdt /usr/share/sddm/themes/
     sudo chown -R $USER:$USER /usr/share/sddm/themes/sdt
-    sudo mkdir /etc/sddm.conf.d
+    sudo mkdir -p /etc/sddm.conf.d
     sudo echo -e "[Theme]\nCurrent=sdt" > /etc/sddm.conf.d/10-theme.conf
+    sudo cp extra/hyprland.desktop /usr/share/wayland-sessions/
     sudo sudo sed -i 's/Exec=Hyprland/Exec=\/home\/'$USER'\/start-hypr/' /usr/share/wayland-sessions/hyprland.desktop
     cp extras/start-hypr ~/
 
