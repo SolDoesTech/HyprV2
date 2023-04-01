@@ -106,13 +106,18 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
     for SOFTWR in hyprland-bin kitty waybar-hyprland swww swaylock-effects wofi wlogout mako xdg-desktop-portal-hyprland-git swappy grim slurp thunar
     do
-        echo -e "$CNT - Now installing $SOFTWR ..."
-        yay -S --noconfirm $SOFTWR &>> $INSTLOG
+        #First lets see if the package is there
         if yay -Qs $SOFTWR > /dev/null ; then
-            echo -e "$COK - $SOFTWR was installed."
+            echo -e "$COK - $SOFTWR is already installed."
         else
-            echo -e "$CER - $SOFTWR install had failed, please check the install.log"
-            exit
+            echo -e "$CNT - Now installing $SOFTWR ..."
+            yay -S --noconfirm $SOFTWR &>> $INSTLOG
+            if yay -Qs $SOFTWR > /dev/null ; then
+                echo -e "$COK - $SOFTWR was installed."
+            else
+                echo -e "$CER - $SOFTWR install had failed, please check the install.log"
+                exit
+            fi
         fi
     done
 
@@ -120,13 +125,18 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     echo -e "\n$CNT - Stage 2 - Installing additional tools and utilities, this may take a while..."
     for SOFTWR in polkit-gnome python-requests pamixer pavucontrol brightnessctl bluez bluez-utils blueman network-manager-applet gvfs thunar-archive-plugin file-roller btop pacman-contrib
     do
-        echo -e "$CNT - Now installing $SOFTWR ..."
-        yay -S --noconfirm $SOFTWR &>> $INSTLOG
+        #First lets see if the package is there
         if yay -Qs $SOFTWR > /dev/null ; then
-            echo -e "$COK - $SOFTWR was installed."
+            echo -e "$COK - $SOFTWR is already installed."
         else
-            echo -e "$CER - $SOFTWR install had failed, please check the install.log"
-            exit
+            echo -e "$CNT - Now installing $SOFTWR ..."
+            yay -S --noconfirm $SOFTWR &>> $INSTLOG
+            if yay -Qs $SOFTWR > /dev/null ; then
+                echo -e "$COK - $SOFTWR was installed."
+            else
+                echo -e "$CER - $SOFTWR install had failed, please check the install.log"
+                exit
+            fi
         fi
     done
 
@@ -134,13 +144,18 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     echo -e "\n$CNT - Stage 3 - Installing theme and visual related tools and utilities, this may take a while..."
     for SOFTWR in starship ttf-jetbrains-mono-nerd noto-fonts-emoji lxappearance xfce4-settings sddm-git sddm-sugar-candy-git 
     do
-        echo -e "$CNT - Now installing $SOFTWR ..."
-        yay -S --noconfirm $SOFTWR &>> $INSTLOG
+        #First lets see if the package is there
         if yay -Qs $SOFTWR > /dev/null ; then
-            echo -e "$COK - $SOFTWR was installed."
+            echo -e "$COK - $SOFTWR is already installed."
         else
-            echo -e "$CER - $SOFTWR install had failed, please check the install.log"
-            exit
+            echo -e "$CNT - Now installing $SOFTWR ..."
+            yay -S --noconfirm $SOFTWR &>> $INSTLOG
+            if yay -Qs $SOFTWR > /dev/null ; then
+                echo -e "$COK - $SOFTWR was installed."
+            else
+                echo -e "$CER - $SOFTWR install had failed, please check the install.log"
+                exit
+            fi
         fi
     done
 
@@ -214,7 +229,7 @@ fi
 read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to activate the starship shell? (y,n) ' STAR
 if [[ $STAR == "Y" || $STAR == "y" ]]; then
     # install the starship shell
-    echo -e "$CNT - Engage..."
+    echo -e "$CNT - Hansen Crusher, Engage!"
     echo -e "$CNT - Updating .bashrc..."
     echo -e '\neval "$(starship init bash)"' >> ~/.bashrc
     echo -e "$CNT - copying starship config file to ~/.confg ..."

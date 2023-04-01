@@ -84,7 +84,7 @@ tooltip label{
     border-radius: 10px 0px 0px 10px;
 }
 
-#custom-light_dark, #custom-power_btn, #workspaces, #pulseaudio.microphone, #battery, #custom-updates {
+#custom-light_dark, #custom-power_btn, #workspaces, #pulseaudio.microphone, #battery, #disk {
     border-radius: 0px 10px 10px 0px;
     margin-right: 10px;
 }
@@ -107,8 +107,8 @@ tooltip label{
 
 #window {
     border-radius: 10px;
-    margin-left: 60px;
-    margin-right: 60px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 #custom-launch_wofi {
