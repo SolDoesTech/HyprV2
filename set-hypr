@@ -65,7 +65,7 @@ more work which is beyond the scope of this script.
 sleep 3
 
 read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to continue with the install (y,n) ' INST
-if [[ $INST == "Y" || INST == "y" ]]; then
+if [[ $INST == "Y" || $INST == "y" ]]; then
     echo -e "$COK - Starting install script.."
 else
     echo -e "$CNT - This script would now exit, no changes were made to your system."
