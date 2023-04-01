@@ -14,32 +14,34 @@
 # wofi: This is an application launcher menu
 # wlogout: This is a logout menu that allows for shutdown, reboot and sleep
 # mako: This is a graphical notification daemon
-# ttf-jetbrains-mono-nerd: Som nerd fonts for icons and overall look
-# noto-fonts-emoji: fonts needed by the weather script in the top bar
-# polkit-gnome: needed to get superuser access on some graphical appliaction
-# python-requests: needed for the weather module script to execute
-# starship: allows to customize the shell prompt
+# xdg-desktop-portal-hyprland-git: xdg-desktop-portal backend for hyprland
 # swappy: This is a screenshot editor tool
 # grim: This is a screenshot tool it grabs images from a Wayland compositor
 # slurp: This helps with screenshots, it selects a region in a Wayland compositor
+# thunar: This is a graphical file manager
+# polkit-gnome: needed to get superuser access on some graphical appliaction
+# python-requests: needed for the weather module script to execute
 # pamixer: This helps with audio settings such as volume
 # pavucontrol: GUI for managing audio and audio devices
-# brightnessctl: used to control monitor bright level
+# brightnessctl: used to control monitor and keyboard bright level
 # bluez: the bluetooth service
 # bluez-utils: command line utilities to interact with bluettoth devices
 # blueman: Graphical bluetooth manager
 # network-manager-applet: Applet for managing network connection
-# lxappearance: used to set GTK theme
-# xfce4-settings: set of tools for xfce, needed to set GTK theme
-# xdg-desktop-portal-hyprland-git: xdg-desktop-portal backend for hyprland
-# thunar: This is a graphical file manager
 # gvfs: adds missing functionality to thunar such as automount usb drives
 # thunar-archive-plugin: Provides a front ent for thunar to work with compressed files
 # file-roller: Backend set of tools for working with compressed files
+# btop: Resource monitor that shows usage and stats for processor, memory, disks, network and processes.
+# pacman-contrib: adds additional tools for pacman. needed for showing system updates in the waybar
+# starship: allows to customize the shell prompt
+# ttf-jetbrains-mono-nerd: Som nerd fonts for icons and overall look
+# noto-fonts-emoji: fonts needed by the weather script in the top bar
+# lxappearance: used to set GTK theme
+# xfce4-settings: set of tools for xfce, needed to set GTK theme
 # sddm-git: developement version of SDDM which is a display manager for graphical login
 # sddm-sugar-candy-git: an sddm theme my theme is based on (copy of)
-# btop: Resource monitor that shows usage and stats for processor, memory, disks, network and processes.
 
+# set some colors
 CNT="[\e[1;36mNOTE\e[0m]"
 COK="[\e[1;32mOK\e[0m]"
 CER="[\e[1;31mERROR\e[0m]"
@@ -48,31 +50,40 @@ CWR="[\e[1;35mWARNING\e[0m]"
 CAC="[\e[1;33mACTION\e[0m]"
 INSTLOG="install.log"
 
+#clear the screen
 clear
 
-#set some expectations
-echo -e "\n
-$CNT - You are about to execute a script that would attempt to setup Hyprland.
+# set some expectations for the user
+echo -e "$CNT - You are about to execute a script that would attempt to setup Hyprland.
 Please note that Hyprland is still in Beta.
 Please note that VMs are not fully supported and if you try to run this on
 a Virtual Machine there is a high chance this will fail.
 Please note that support for Nvidia GPUs is limited and may require
-more work which is beyond the scope of this script.\n
+more work which is beyond the scope of this script.
 \n"
 
 sleep 3
 
+read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to continue with the install (y,n) ' CONTINST
+if [[ $CONTINST != "Y" || $CONTINST != "y" ]]; then
+    echo -e "$CNT - This script would now exit, no changes were made to your system."
+    exit
+fi
+
+
 echo -e "\n
 $CNT - This script will run some commands that require sudo. You will be prompted to enter your password.
-If you are worried about entering your password then you may want to review the content of the script.\n"
+If you are worried about entering your password then you may want to review the content of the script."
+
+sleep 3
 
 #### Check for yay ####
 ISYAY=/sbin/yay
 if [ -f "$ISYAY" ]; then 
-    echo -e "$COK - yay was located, moving on.\n"
+    echo -e "$COK - yay was located, moving on."
 else 
     echo -e "$CWR - Yay was NOT located"
-    read -n1 -rep $'[\e[1;33mACTION\e[0m] - would you like to install yay (y,n) ' INSTYAY
+    read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to install yay (y,n) ' INSTYAY
     if [[ $INSTYAY == "Y" || $INSTYAY == "y" ]]; then
         git clone https://aur.archlinux.org/yay-git.git &>> $INSTLOG
         cd yay-git
@@ -94,6 +105,7 @@ if [[ $WIFI == "Y" || $WIFI == "y" ]]; then
     echo -e "[connection]\nwifi.powersave = 2" | sudo tee -a $LOC &>> $INSTLOG
     echo -e "\n"
     echo -e "$CNT - Restarting NetworkManager service..."
+    sleep 1
     sudo systemctl restart NetworkManager &>> $INSTLOG
     sleep 3
 fi
@@ -191,7 +203,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     done
 
     # Set some files as exacutable
-    echo -e "$CNT - Setting some file as +x." 
+    echo -e "$CNT - Setting some file as executable." 
     chmod +x ~/.config/hypr/scripts/bgaction
     chmod +x ~/.config/hypr/scripts/xdg-portal-hyprland
     chmod +x ~/.config/waybar/scripts/waybar-wttr.py
@@ -237,7 +249,7 @@ if [[ $STAR == "Y" || $STAR == "y" ]]; then
 fi
 
 ### Install software for Asus ROG laptops ###
-read -n1 -rep $'[\e[1;33mACTION\e[0m] Would you like to install Asus ROG software support? (y,n) ' ROG
+read -n1 -rep $'[\e[1;33mACTION\e[0m] - For ASUS ROG Laptops - Would you like to install Asus ROG software support? (y,n) ' ROG
 if [[ $ROG == "Y" || $ROG == "y" ]]; then
     echo -e "$CNT - Adding Keys..."
     sudo pacman-key --recv-keys 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35 &>> $INSTLOG
@@ -265,7 +277,7 @@ if [[ $ROG == "Y" || $ROG == "y" ]]; then
 fi
 
 ### Script is done ###
-echo -e "$CNT Script had completed!"
+echo -e "$CNT - Script had completed!"
 read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to start Hyprland now? (y,n) ' HYP
 if [[ $HYP == "Y" || $HYP == "y" ]]; then
     exec sudo systemctl start sddm &>> $INSTLOG
