@@ -118,7 +118,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 
     #Stage 2
     echo -e "\n$CNT - Stage 2 - Installing additional tools and utilities, this may take a while..."
-    for SOFTWR in polkit-gnome python-requests pamixer pavucontrol brightnessctl bluez bluez-utils blueman network-manager-applet gvfs thunar-archive-plugin file-roller btop
+    for SOFTWR in polkit-gnome python-requests pamixer pavucontrol brightnessctl bluez bluez-utils blueman network-manager-applet gvfs thunar-archive-plugin file-roller btop pacman-contrib
     do
         echo -e "$CNT - Now installing $SOFTWR ..."
         yay -S --noconfirm $SOFTWR &>> $INSTLOG
@@ -132,7 +132,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 
     #Stage 3
     echo -e "\n$CNT - Stage 3 - Installing theme and visual related tools and utilities, this may take a while..."
-    for SOFTWR in starship ttf-jetbrains-mono-nerd noto-fonts-emoji lxappearance xfce4-settings sddm-git sddm-sugar-candy-git
+    for SOFTWR in starship ttf-jetbrains-mono-nerd noto-fonts-emoji lxappearance xfce4-settings sddm-git sddm-sugar-candy-git 
     do
         echo -e "$CNT - Now installing $SOFTWR ..."
         yay -S --noconfirm $SOFTWR &>> $INSTLOG
@@ -181,6 +181,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     chmod +x ~/.config/hypr/scripts/xdg-portal-hyprland
     chmod +x ~/.config/waybar/scripts/waybar-wttr.py
     chmod +x ~/.config/waybar/scripts/baraction
+    chmod +x ~/.config/waybar/scripts/update-sys
 
     # Copy the SDDM theme
     echo -e "$CNT - Setting up the login screen."

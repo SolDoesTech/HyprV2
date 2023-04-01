@@ -62,6 +62,7 @@ tooltip label{
 #window,
 #cpu,
 #disk,
+#custom-updates,
 #memory,
 #clock,
 #battery,
@@ -83,7 +84,7 @@ tooltip label{
     border-radius: 10px 0px 0px 10px;
 }
 
-#custom-light_dark, #custom-power_btn, #workspaces, #pulseaudio.microphone, #battery, #disk {
+#custom-light_dark, #custom-power_btn, #workspaces, #pulseaudio.microphone, #battery, #custom-updates {
     border-radius: 0px 10px 10px 0px;
     margin-right: 10px;
 }
