@@ -26,7 +26,7 @@ fi
 # If there aren't any parameters, return the total number of updates
 if [ "$1" = "" ]; then
     # Calculate total number of updates
-    COUNT=$((OFFICIAL+AUR-1))
+    COUNT=$((OFFICIAL+AUR))
     # If there are updates, the script will output the following:   Updates
     # If there are no updates, the script will output nothing.
 
