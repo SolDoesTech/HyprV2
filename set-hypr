@@ -96,7 +96,6 @@ else
         echo -e "$CER - Yay is required for this script, now exiting"
         exit
     fi
-    yay -Suy --noconfirm &>> $INSTLOG
 fi
 
 ### Disable wifi powersave mode ###
@@ -115,7 +114,10 @@ fi
 ### Install all of the above pacakges ####
 read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to install the packages? (y,n) ' INST
 if [[ $INST == "Y" || $INST == "y" ]]; then
-
+    # update the DB first
+    echo -e "$COK - Updating yay database..."
+    yay -Suy --noconfirm &>> $INSTLOG
+    
     #Stage 1
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
     for SOFTWR in hyprland kitty waybar-hyprland swww swaylock-effects wofi wlogout mako xdg-desktop-portal-hyprland-git swappy grim slurp thunar
