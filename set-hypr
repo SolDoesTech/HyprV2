@@ -120,9 +120,9 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     
     #setup the waybar with a fix - thankyou @Mrt
     echo -e "$CNT - Installing Waybar with fix"
-    install_software gcc12
+    yay -S --noconfirm gcc12 &>> $INSTLOG
     export CC=gcc-12 CXX=g++-12
-    install_software waybar-hyprland
+    yay -S --noconfirm waybar-hyprland &>> $INSTLOG
 
     #Stage 1
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
