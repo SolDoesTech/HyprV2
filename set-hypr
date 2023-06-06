@@ -87,8 +87,8 @@ else
     echo -e "$CWR - Yay was NOT located"
     read -n1 -rep $'[\e[1;33mACTION\e[0m] - Would you like to install yay (y,n) ' INSTYAY
     if [[ $INSTYAY == "Y" || $INSTYAY == "y" ]]; then
-        git clone https://aur.archlinux.org/yay-git.git &>> $INSTLOG
-        cd yay-git
+        git clone https://aur.archlinux.org/yay.git &>> $INSTLOG
+        cd yay
         makepkg -si --noconfirm &>> ../$INSTLOG
         cd ..
         
@@ -119,14 +119,14 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     yay -Suy --noconfirm &>> $INSTLOG
     
     #setup the waybar with a fix - thankyou @Mrt
-    echo -e "$CNT - Installing Waybar with fix"
-    yay -S --noconfirm gcc12 &>> $INSTLOG
-    export CC=gcc-12 CXX=g++-12
-    yay -S --noconfirm waybar-hyprland &>> $INSTLOG
+    #echo -e "$CNT - Installing Waybar with fix"
+    #yay -S --noconfirm gcc12 &>> $INSTLOG
+    #export CC=gcc-12 CXX=g++-12
+    #yay -S --noconfirm waybar-hyprland &>> $INSTLOG
 
     #Stage 1
     echo -e "\n$CNT - Stage 1 - Installing main components, this may take a while..."
-    for SOFTWR in hyprland kitty swww swaylock-effects wofi wlogout mako xdg-desktop-portal-hyprland-git swappy grim slurp thunar
+    for SOFTWR in hyprland kitty waybar swww swaylock-effects wofi wlogout mako xdg-desktop-portal-hyprland swappy grim slurp thunar
     do
         #First lets see if the package is there
         if yay -Qs $SOFTWR > /dev/null ; then
@@ -164,7 +164,7 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
 
     #Stage 3
     echo -e "\n$CNT - Stage 3 - Installing theme and visual related tools and utilities, this may take a while..."
-    for SOFTWR in starship ttf-jetbrains-mono-nerd noto-fonts-emoji lxappearance xfce4-settings sddm-git sddm-sugar-candy-git 
+    for SOFTWR in starship ttf-jetbrains-mono-nerd noto-fonts-emoji lxappearance xfce4-settings sddm-git qt5-svg qt5-quickcontrols2 qt5-graphicaleffects
     do
         #First lets see if the package is there
         if yay -Qs $SOFTWR > /dev/null ; then
